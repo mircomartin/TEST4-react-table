@@ -9,7 +9,7 @@ function App () {
   const [sortByCountry, setSortByCountry] = useState(false)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
   const originalUsers = useRef<User[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(0)
 
   useEffect(() => {
 
@@ -42,6 +42,7 @@ function App () {
   }
 
   const backPage = () => {
+    if (currentPage === 0) return 
     setCurrentPage(prevState => prevState - 1)
   }
 
@@ -68,9 +69,12 @@ function App () {
           <input type="text" placeholder="Filtrar por país"
             onChange={(e) => setFilterCountry(e.target.value)}
           />
-          <button className={ currentPage === 1 ? 'hidden' : 'flex' } onClick={backPage}>
+          <button className={ currentPage === 0 ? 'hidden' : 'flex' } onClick={backPage}>
             Back
           </button>
+          {
+            currentPage > 0 && <span style={{ fontWeight: 'bold' }}>{currentPage}</span>
+          }
           <button onClick={nextPage}>
             Next
           </button>

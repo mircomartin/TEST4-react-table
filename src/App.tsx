@@ -9,10 +9,11 @@ function App () {
   const [sortByCountry, setSortByCountry] = useState(false)
   const [filterCountry, setFilterCountry] = useState<string | null>(null)
   const originalUsers = useRef<User[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
 
   useEffect(() => {
 
-    fetch('https://randomuser.me/api?results=100')
+    fetch(`https://randomuser.me/api/?page=${currentPage}&results=10`)
       .then(async (res) => await res.json())
       .then((res) => {
         setUsers(res.results)
@@ -22,7 +23,7 @@ function App () {
         console.log(err)
       })
       
-  }, [])
+  }, [currentPage])
 
   const toggleColors = () => {
     setShowColors(!showColors)
@@ -40,6 +41,14 @@ function App () {
     setUsers((prevState) => originalUsers.current)
   }
 
+  const backPage = () => {
+    setCurrentPage(prevState => prevState - 1)
+  }
+
+  const nextPage = () => {
+    setCurrentPage(prevState => prevState + 1)
+  }
+
   const filteredUsers = useMemo(() => {
     return filterCountry !== null && filterCountry.length > 0
       ? users.filter(user => {
@@ -52,12 +61,20 @@ function App () {
     <div className="App">
       <h1>Test React</h1>
       <header>
-        <button onClick={toggleColors}>Colorear Filas</button>
-        <button onClick={toggleSortByCountry}>Sort By Country</button>
-        <button onClick={handleReset}>Reset</button>
-        <input type="text" placeholder="Filtrar por país"
-          onChange={(e) => setFilterCountry(e.target.value)}
-        />
+        <div className="nav">
+          <button onClick={toggleColors}>Colorear Filas</button>
+          <button onClick={toggleSortByCountry}>Sort By Country</button>
+          <button onClick={handleReset}>Reset</button>
+          <input type="text" placeholder="Filtrar por país"
+            onChange={(e) => setFilterCountry(e.target.value)}
+          />
+          <button className={ currentPage === 1 ? 'hidden' : 'flex' } onClick={backPage}>
+            Back
+          </button>
+          <button onClick={nextPage}>
+            Next
+          </button>
+        </div>
       </header>
       <main>
         <UsersList showColors={showColors} sortByCountry={sortByCountry} handleDelete={handleDelete} filteredUsers={filteredUsers}/>

@@ -29,7 +29,7 @@ export const UsersList = ({ showColors, sortByCountry, handleDelete, filteredUse
           const backgroundColor = index % 2 === 0 ? '#333' : '#555'
           const color = showColors ? backgroundColor : 'transparent'
           return (
-            <tr key={user.login.uuid} style={{ backgroundColor: color }}>
+            <tr key={user.email} style={{ backgroundColor: color }}>
               <td>
                 <img src={user.picture.thumbnail} alt={user.name.title} />
               </td>
@@ -37,7 +37,7 @@ export const UsersList = ({ showColors, sortByCountry, handleDelete, filteredUse
               <td>{user.name.last}</td>
               <td>{user.location.country}</td>
               <td>
-                <button onClick={() => handleDelete(user.login.uuid)}>Borrar</button>
+                <button onClick={() => handleDelete(user.email)}>Borrar</button>
               </td>
             </tr>
           )

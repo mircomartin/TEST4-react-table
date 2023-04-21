@@ -25,6 +25,7 @@ module.exports = {
     '@typescript-eslint/key-spacing': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
     'no-multi-spaces': 'off',
-    '@typescript-eslint/no-confusing-void-expression': 'off'
+    '@typescript-eslint/no-confusing-void-expression': 'off',
+    '@typescript-eslint/no-floating-promises': 'off'
   }
 }
